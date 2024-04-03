@@ -14,6 +14,10 @@ spring:
       hibernate:
         format_sql: true
         globally_quoted_identifiers: true
+  # JWT Setting
+  jwt:
+    secret: 'abcavavavasvadwaefhaekudbuevfukwedfykaseygfukywbedkuyhbakdugfeakfyhbdjkcbukayegwgvfi'
+
 # Spring DOC
 springdoc:
   swagger-ui:

@@ -1,0 +1,41 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Build Docker Image
+        run: docker build -t crypto-coffee-app .
+
+      - name: Push Docker Image to DockerHub (or another registry)
+        run: |
+          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          docker tag crypto-coffee-app $DOCKERHUB_USERNAME/crypto-coffee-app:latest
+          docker push $DOCKERHUB_USERNAME/crypto-coffee-app:latest
+
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull $DOCKERHUB_USERNAME/crypto-coffee-app:latest
+            docker stop crypto-coffee-app || true
+            docker rm crypto-coffee-app || true
+            docker run --name crypto-coffee-app -d -p 8080:8080 $DOCKERHUB_USERNAME/crypto-coffee-app:latest

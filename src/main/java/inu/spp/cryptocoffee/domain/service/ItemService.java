@@ -30,7 +30,7 @@ public class ItemService {
         ItemEntity item = ItemEntity.builder()
                 .name(itemRequestDto.getName())
                 .description(itemRequestDto.getDescription())
-                .category(categoryRepository.findById(itemRequestDto.getCategoryId()).orElseThrow(()
+                .category(categoryRepository.findByName(itemRequestDto.getCategoryName()).orElseThrow(()
                         -> new EntityNotFoundException("Category not found"))).build();
 
         item = itemRepository.save(item);
@@ -47,7 +47,7 @@ public class ItemService {
         item.updateItem(
                 itemRequestDto.getName(),
                 itemRequestDto.getDescription(),
-                categoryRepository.findById(itemRequestDto.getCategoryId()).orElseThrow(()
+                categoryRepository.findByName(itemRequestDto.getCategoryName()).orElseThrow(()
                         -> new IllegalArgumentException("Category not found"))
         );
         return "Item updated successfully";

@@ -11,4 +11,8 @@ public class TestController {
     public ResponseEntity<String > test() {
         return ResponseEntity.ok("test");
     }
+    @GetMapping("/admin")
+    public ResponseEntity<String> admin() {
+        return ResponseEntity.ok("admin");
+    }
 }

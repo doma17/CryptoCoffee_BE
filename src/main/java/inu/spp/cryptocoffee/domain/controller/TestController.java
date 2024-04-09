@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    /**
+     * 테스트 API
+     * @return test 문자열 반환
+     */
     @GetMapping("/test")
     public ResponseEntity<String > test() {
         return ResponseEntity.ok("test");

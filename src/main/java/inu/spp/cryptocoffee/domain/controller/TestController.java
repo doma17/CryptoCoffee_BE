@@ -11,6 +11,11 @@ public class TestController {
     public ResponseEntity<String > test() {
         return ResponseEntity.ok("test");
     }
+
+    /**
+     * admin 권한이 필요한 API
+     * @return admin 문자열 반환
+     */
     @GetMapping("/admin")
     public ResponseEntity<String> admin() {
         return ResponseEntity.ok("admin");

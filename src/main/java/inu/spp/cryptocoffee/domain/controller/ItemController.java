@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ItemController {
         return itemService.getItemList();
     }
 
+    @Operation(summary = "카테고리별 아이템 목록 조회")
     @GetMapping("/category")
     public List<ItemEntity> getItemListByCategory(@RequestParam String category) {
         return itemService.getItemListByCategory(category);

@@ -14,9 +14,23 @@ spring:
       hibernate:
         format_sql: true
         globally_quoted_identifiers: true
+  # Mail Setting
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
 # JWT Setting
 #  jwt:
-#    secret: 'abcavavavasvadwaefhaekudbuevfukwedfykaseygfukywbedkuyhbakdugfeakfyhbdjkcbukayegwgvfi'
+#    secret: ${JWT_SECRET} 추후 추가
+
 # Spring DOC
 springdoc:
   swagger-ui:

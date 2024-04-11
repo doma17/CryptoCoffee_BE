@@ -1,5 +1,6 @@
-package inu.spp.cryptocoffee.user;
+package inu.spp.cryptocoffee.user.repository;
 
+import inu.spp.cryptocoffee.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

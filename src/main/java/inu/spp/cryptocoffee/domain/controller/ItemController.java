@@ -39,7 +39,7 @@ public class ItemController {
 
     @Operation(summary = "아이템 생성")
     @PostMapping
-    public ResponseEntity<?> createItem(@RequestBody ItemRequestDto itemRequestDto) {
+    public ResponseEntity<?> createItem(@Validated @RequestBody ItemRequestDto itemRequestDto) {
         return new ResponseEntity<>(itemService.createItem(itemRequestDto), HttpStatus.OK);
     }
 

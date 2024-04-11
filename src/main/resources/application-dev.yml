@@ -29,7 +29,7 @@ spring:
             enable: true
  #JWT Setting
   jwt:
-    secret: ${JWT_SECRET} 추후 추가
+    secret: ${JWT_SECRET}
 
 springdoc:
   swagger-ui:

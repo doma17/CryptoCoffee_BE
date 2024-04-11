@@ -21,12 +21,12 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "employee_number")
     private String employeeNumber;
 
+    private String name;
+
     private String email;
 
     @Column(name = "account_address")
     private String accountAddress;
-
-    private String name;
 
     private String role;
 

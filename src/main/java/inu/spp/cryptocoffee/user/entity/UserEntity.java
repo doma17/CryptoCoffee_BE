@@ -1,16 +1,17 @@
 package inu.spp.cryptocoffee.user.entity;
 
-import inu.spp.cryptocoffee.domain.entity.CompanyEntity;
+import inu.spp.cryptocoffee.email.entity.CompanyEntity;
 import inu.spp.cryptocoffee.global.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Table(name = "user")
+@Entity
 public class UserEntity extends BaseTimeEntity {
 
     @Id
@@ -18,15 +19,11 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "id")
     private Long userId;
 
-    @Column(name = "employee_number")
-    private String employeeNumber;
+    private String username;
+
+    private String password;
 
     private String name;
-
-    private String email;
-
-    @Column(name = "account_address")
-    private String accountAddress;
 
     private String role;
 

@@ -1,4 +1,4 @@
-package inu.spp.cryptocoffee.domain.entity;
+package inu.spp.cryptocoffee.email.entity;
 
 import inu.spp.cryptocoffee.global.BaseTimeEntity;
 import jakarta.persistence.*;

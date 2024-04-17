@@ -4,7 +4,7 @@ import inu.spp.cryptocoffee.domain.dto.OrderRequestDto;
 import inu.spp.cryptocoffee.domain.entity.OrderEntity;
 import inu.spp.cryptocoffee.domain.repository.ItemRepository;
 import inu.spp.cryptocoffee.domain.repository.OrderRepository;
-import inu.spp.cryptocoffee.user.UserRepository;
+import inu.spp.cryptocoffee.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

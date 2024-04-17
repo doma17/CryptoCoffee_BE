@@ -27,11 +27,10 @@ spring:
           timeout: 5000
           starttls:
             enable: true
-# JWT Setting
-#  jwt:
-#    secret: ${JWT_SECRET} 추후 추가
+ #JWT Setting
+  jwt:
+    secret: ${JWT_SECRET}
 
-# Spring DOC
 springdoc:
   swagger-ui:
     operations-sorter: alpha

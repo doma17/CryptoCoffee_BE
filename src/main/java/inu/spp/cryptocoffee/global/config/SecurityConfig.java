@@ -1,6 +1,6 @@
 package inu.spp.cryptocoffee.global.config;
 
-import inu.spp.cryptocoffee.user.jwt.JwtFilter;
+import inu.spp.cryptocoffee.user.jwt.JwtAuthenticationFilter;
 import inu.spp.cryptocoffee.user.jwt.JwtUtil;
 import inu.spp.cryptocoffee.user.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
@@ -77,7 +77,7 @@ public class SecurityConfig {
 
         // LoginFilter 앞에 JwtFilter를 추가
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), LoginFilter.class);
 
         // CORS Setting
         http

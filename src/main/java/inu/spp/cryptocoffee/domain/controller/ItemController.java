@@ -5,10 +5,10 @@ import inu.spp.cryptocoffee.domain.entity.ItemEntity;
 import inu.spp.cryptocoffee.domain.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class ItemController {
 
     @Operation(summary = "아이템 생성")
     @PostMapping
-    public ResponseEntity<?> createItem(@Validated @RequestBody ItemRequestDto itemRequestDto) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequestDto itemRequestDto) {
         return new ResponseEntity<>(itemService.createItem(itemRequestDto), HttpStatus.OK);
     }
 
@@ -51,7 +51,7 @@ public class ItemController {
 
     @Operation(summary = "아이템 수정")
     @PutMapping("/{itemId}")
-    public ResponseEntity<?> updateItem(@PathVariable Long itemId, @RequestBody ItemRequestDto itemRequestDto) {
+    public ResponseEntity<?> updateItem(@PathVariable Long itemId, @Valid @RequestBody ItemRequestDto itemRequestDto) {
         return new ResponseEntity<>(itemService.updateItem(itemId, itemRequestDto), HttpStatus.OK);
     }
 }

@@ -2,15 +2,15 @@ package inu.spp.cryptocoffee.email.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class EmailPostDto {
-
     @Email
-    @NotNull
+    @NotNull(message = "email can't be null")
+    @NotEmpty(message = "email can't be empty")
     @Schema(description = "받는 사람 이메일 주소", example = "example@gmail.com")
     private String email;
-
 }

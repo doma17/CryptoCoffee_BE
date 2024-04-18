@@ -1,6 +1,7 @@
 package inu.spp.cryptocoffee.email.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,15 +11,16 @@ import lombok.Setter;
 @Setter
 @Builder
 public class EmailMessage {
-
     @Email
-    @NotNull
+    @NotNull(message = "email can't be null")
+    @NotEmpty(message = "email can't be empty")
     private String to;
 
-    @NotNull
+    @NotNull(message = "email can't be null")
+    @NotEmpty(message = "email can't be empty")
     private String subject;
 
-    @NotNull
+    @NotNull(message = "email can't be null")
+    @NotEmpty(message = "email can't be empty")
     private String message;
-
 }

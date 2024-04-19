@@ -1,10 +1,15 @@
 spring:
-  # DB Setting
+  # MariaDB Setting
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: 'jdbc:mariadb://localhost:3307/crypto_coffee'
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  # Redis Setting
+  data:
+    redis:
+      host: localhost
+      port: 6379
   # JPA Setting
   jpa:
     hibernate:
@@ -30,6 +35,9 @@ spring:
  #JWT Setting
   jwt:
     secret: ${JWT_SECRET}
+    expiration:
+      access: 600 # 10 minutes
+      refresh: 86400 # 24 hours
 
 springdoc:
   swagger-ui:

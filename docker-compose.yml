@@ -12,5 +12,14 @@ services:
       - mariadb-data:/var/lib/mysql
     restart: always
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis-data:/data
 volumes:
   mariadb-data:
+  redis-data:

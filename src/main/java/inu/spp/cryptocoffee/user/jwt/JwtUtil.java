@@ -18,8 +18,7 @@ public class JwtUtil {
     private SecretKey secretKey;
 
     /**
-     * secret code에 관한 내용은 내부에 하드코딩X
-     * -> application.properties에 저장
+     * secret code에 관한 내용은 내부에 하드코딩 X -> application에 저장
      * 양방향 대칭키 방식인 HS256 사용
      */
     public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
@@ -29,27 +28,24 @@ public class JwtUtil {
     }
 
     /**
-     * Jwts.parser()을 이용해 parameter로 전달받은 token이
      * 현재 서버의 secretKey를 통해서 만들어진 것을 확인하고
-     * Jwt Token에 담긴 username 정보를 String Class 형태로 반환 받겠다는 내용이다.
+     * Jwt Token에 담긴 username 정보를 String Class 형태로 반환
      */
     public String getUsername(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
     /**
-     * Jwts.parser()을 이용해 parameter로 전달받은 token이
      * 현재 서버의 secretKey를 통해서 만들어진 것을 확인하고
-     * Jwt Token에 담긴 role 정보를 String Class 형태로 반환 받겠다는 내용이다.
+     * Jwt Token에 담긴 role 정보를 String Class 형태로 반환
      */
     public String getRole(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
 
     /**
-     * Jwts.parser()을 이용해 parameter로 전달받은 token이
      * 현재 서버의 secretKey를 통해서 만들어진 것을 확인하고
-     * Jwt Token에 담긴 expire 정보와 현재 시간을 비교해 만료됨을 파악한다.
+     * Jwt Token에 담긴 expire 정보와 현재 시간을 비교해 만료 확인
      */
     public Boolean isExpired(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());

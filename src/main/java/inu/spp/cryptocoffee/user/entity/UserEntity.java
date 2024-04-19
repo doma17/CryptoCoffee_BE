@@ -19,14 +19,20 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "id")
     private Long userId;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String name;
 
-    private String role;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
+
+    @Column(nullable = false)
     private boolean isLocked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

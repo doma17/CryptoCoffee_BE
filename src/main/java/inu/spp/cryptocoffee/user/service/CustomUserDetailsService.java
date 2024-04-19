@@ -3,12 +3,14 @@ package inu.spp.cryptocoffee.user.service;
 import inu.spp.cryptocoffee.user.dto.CustomUserDetails;
 import inu.spp.cryptocoffee.user.entity.UserEntity;
 import inu.spp.cryptocoffee.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -21,12 +23,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(username);
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        if (user != null) {
-            return new CustomUserDetails(user);
-        }
-
-        return null;
+        return new CustomUserDetails(user);
     }
 }

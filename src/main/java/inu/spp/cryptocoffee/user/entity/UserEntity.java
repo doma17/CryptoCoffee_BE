@@ -2,9 +2,9 @@ package inu.spp.cryptocoffee.user.entity;
 
 import inu.spp.cryptocoffee.email.entity.CompanyEntity;
 import inu.spp.cryptocoffee.global.BaseTimeEntity;
+import inu.spp.cryptocoffee.user.dto.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -26,6 +26,8 @@ public class UserEntity extends BaseTimeEntity {
     private String name;
 
     private String role;
+    private UserRoleEnum role;
+    private boolean isLocked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CompanyEntity company;

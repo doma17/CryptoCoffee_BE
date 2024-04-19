@@ -39,7 +39,7 @@ public class JoinService {
                 .password(bCryptPasswordEncoder.encode(password))
                 .name(joinDto.getName())
                 .company(companyEntity)
-                .role("ROLE_ADMIN")
+                .role(UserRoleEnum.ROLE_ADMIN) // default role 추후 변경 필요
                 .build();
 
         userRepository.save(data);

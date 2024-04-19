@@ -1,11 +1,14 @@
 package inu.spp.cryptocoffee.user.jwt;
 
 import inu.spp.cryptocoffee.user.dto.CustomUserDetails;
+import inu.spp.cryptocoffee.user.dto.UserRoleEnum;
 import inu.spp.cryptocoffee.user.entity.UserEntity;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,50 +16,40 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
+@RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
-
+    /**
+     * JWT 토큰 검증 및 인증 처리
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorization = request.getHeader("Authorization");
+        // 요청 IP 로깅
+        // !!! IP 관련 내용은 추후 다른 Filter로 추가할 예정 !!!
+        log.info("[doFilterInternal] Request IP : {}", request.getRemoteAddr());
 
-        //Authorization 헤더 검증
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.info("[doFilterInternal] authorization not exist");
-            filterChain.doFilter(request, response);
-            //조건이 해당되면 메소드 종료 (필수)
-            return;
-        }
-
-        log.info("[doFilterInternal] authorization now");
-        String token = authorization.split(" ")[1];
-
-        //토큰 소멸 시간 검증
-        if (jwtUtil.isExpired(token)) {
-
-            System.out.println("token expired");
-            filterChain.doFilter(request, response);
-
-            //조건이 해당되면 메소드 종료 (필수)
-            return;
-        }
+        // 토큰 검증
+        String accessToken = verifiedAccessToken(request, response, filterChain);
+        if (accessToken == null) return;
 
         //토큰에서 username과 role 획득
-        String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        String username = jwtUtil.getUsername(accessToken);
+        UserRoleEnum userRole = UserRoleEnum.valueOf(jwtUtil.getRole(accessToken));
 
         //userEntity를 생성하여 값 set
         UserEntity userEntity = UserEntity.builder()
                 .username(username)
-                .password("temppassword")
-                .role(role)
+                .role(userRole)
                 .build();
 
         //UserDetails에 회원 정보 객체 담기
@@ -68,5 +61,66 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * JWT Access Token 검증
+     * @param request
+     * @param response
+     * @param filterChain
+     * @return access token or null
+     * @throws IOException
+     * @throws ServletException
+     */
+    private String verifiedAccessToken(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        final String accessToken = request.getHeader("Authorization");
+
+        //Authorization 헤더 검증
+        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
+            log.debug("[doFilterInternal] not Bearer token");
+            filterChain.doFilter(request, response);
+            return null;
+        }
+
+        // Bearer token 검증
+        if (!accessToken.split(" ")[0].equals("Bearer")) {
+            doStatusUnAuth("[doFilterInternal] not Bearer token", response, "invalid token");
+            return null;
+        }
+
+        // 토큰 만료 검증
+        final String token = accessToken.split(" ")[1];
+        try {
+            jwtUtil.isExpired(token);
+        } catch (ExpiredJwtException e) {
+            log.info("[doFilterInternal] access token : {}", token);
+            log.info("[doFilterInternal] error message : {}", e.getMessage());
+            doStatusUnAuth("[doFilterInternal] access token expired", response, "access token expired");
+            return null;
+        }
+
+        // 토큰 Access 여부 검증
+        final String category = jwtUtil.getCategory(token);
+        if (!category.equals("access")) {
+            doStatusUnAuth("[doFilterInternal] not access token", response, "invalid access token");
+            return null;
+        }
+        return token;
+    }
+
+    /**
+     * 401 Unauthorized 처리
+     * @param msg
+     * @param response
+     * @param invalid_token
+     * @throws IOException
+     */
+    private static void doStatusUnAuth(String msg, HttpServletResponse response, String invalid_token) throws IOException {
+        log.info(msg);
+        // 토큰이 유효하지 않을 경우 401 Unauthorized 반환
+        // 추후 404 Not Found로 변경 예정 및 메세지 제거
+        PrintWriter writer = response.getWriter();
+        writer.print(invalid_token);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

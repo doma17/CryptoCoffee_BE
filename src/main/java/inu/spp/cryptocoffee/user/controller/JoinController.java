@@ -2,6 +2,8 @@ package inu.spp.cryptocoffee.user.controller;
 
 import inu.spp.cryptocoffee.user.dto.JoinDto;
 import inu.spp.cryptocoffee.user.service.JoinService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,8 @@ public class JoinController {
         this.joinService = joinService;
     }
 
-    @PostMapping("/join")
-    public String joinProcess(JoinDto joinDTO) {
+    @PostMapping("/user/join")
+    public String joinProcess(@Valid @RequestBody JoinDto joinDTO) {
 
         log.info("[joinProcess] username: {}", joinDTO.getUsername());
         joinService.joinProcess(joinDTO);

@@ -1,10 +1,15 @@
 spring:
-  # DB Setting
+  # MariaDB Setting
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: 'jdbc:mariadb://localhost:3306/crypto_coffee'
-    username: root
-    password: kwak8174
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  # Redis Setting
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
   # JPA Setting
   jpa:
     hibernate:
@@ -14,11 +19,26 @@ spring:
       hibernate:
         format_sql: true
         globally_quoted_identifiers: true
-  # JWT Setting
+  # Mail Setting
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+ #JWT Setting
   jwt:
-    secret: 'abcavavavasvadwaefhaekudbuevfukwedfykaseygfukywbedkuyhbakdugfeakfyhbdjkcbukayegwgvfi'
+    secret: ${JWT_SECRET}
+    expiration:
+      access: 600 # 10 minutes
+      refresh: 86400 # 24 hours
 
-# Spring DOC
 springdoc:
   swagger-ui:
     operations-sorter: alpha

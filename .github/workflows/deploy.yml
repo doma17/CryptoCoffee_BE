@@ -1,41 +1,52 @@
-name: Deploy to AWS EC2
+name: Build Docker Image
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
-      - name: Build Docker Image
-        run: docker build -t crypto-coffee-app .
+      - name: Build Docker image
+        run: docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest .
 
-      - name: Push Docker Image to DockerHub (or another registry)
-        run: |
-          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-          docker tag crypto-coffee-app $DOCKERHUB_USERNAME/crypto-coffee-app:latest
-          docker push $DOCKERHUB_USERNAME/crypto-coffee-app:latest
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin
 
-      - name: Deploy to AWS EC2
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
+
+      - name: Execute Docker Container on EC2
         uses: appleboy/ssh-action@master
         with:
+          username: ubuntu
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull $DOCKERHUB_USERNAME/crypto-coffee-app:latest
-            docker stop crypto-coffee-app || true
-            docker rm crypto-coffee-app || true
-            docker run --name crypto-coffee-app -d -p 8080:8080 $DOCKERHUB_USERNAME/crypto-coffee-app:latest
+            docker stop crypto-app || true
+            docker rm crypto-app || true
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
+            docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev \
+              --env DB_URL=${{ secrets.DB_URL }} \
+              --env DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              --env REDIS_HOST=${{ secrets.REDIS_HOST }} \
+              --env REDIS_PORT=${{ secrets.REDIS_PORT }} \
+              --env MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+              --env MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+              --env JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -v ${{ secrets.STORAGE_UPLOAD_DIR }} \
+              -v ${{ secrets.LOG_DIR }} \
+              ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest

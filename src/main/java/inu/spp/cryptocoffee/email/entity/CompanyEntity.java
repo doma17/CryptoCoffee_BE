@@ -1,5 +1,4 @@
-package inu.spp.cryptocoffee.domain.entity;
-
+package inu.spp.cryptocoffee.email.entity;
 
 import inu.spp.cryptocoffee.global.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -10,13 +9,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "category")
-public class CategoryEntity extends BaseTimeEntity {
+@Table(name = "company")
+public class CompanyEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long categoryId;
+    private Long companyId;
 
     private String name;
+
+    @Column(name = "number")
+    private String companyNumber;
+
+    @Embedded
+    private Address address;
 }

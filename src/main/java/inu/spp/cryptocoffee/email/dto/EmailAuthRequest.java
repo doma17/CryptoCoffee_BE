@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmailAuthDto {
+public class EmailAuthRequest {
     @Email
     @NotNull(message = "email can't be null")
     @NotEmpty(message = "email can't be empty")

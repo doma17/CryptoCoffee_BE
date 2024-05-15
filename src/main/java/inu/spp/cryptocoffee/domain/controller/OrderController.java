@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Tag(name = "Order API")
-@RequestMapping("/api/v1/order")
+@RequestMapping("/api/order")
 @RestController
 public class OrderController {
 

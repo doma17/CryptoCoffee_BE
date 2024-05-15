@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Tag(name = "Item API")
-@RequestMapping("/api/v1/item")
+@RequestMapping("/api/item")
 @RestController
 public class ItemController {
 

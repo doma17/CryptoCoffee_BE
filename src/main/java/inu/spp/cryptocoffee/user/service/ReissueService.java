@@ -68,7 +68,7 @@ public class ReissueService {
             return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
         }
 
-        //expired check
+        // expired check
         try {
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e) {

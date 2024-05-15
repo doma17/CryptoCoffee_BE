@@ -1,6 +1,6 @@
 package inu.spp.cryptocoffee.email.service;
 
-import inu.spp.cryptocoffee.email.dto.EmailAuthDto;
+import inu.spp.cryptocoffee.email.dto.EmailAuthRequest;
 import inu.spp.cryptocoffee.email.dto.EmailMessage;
 import inu.spp.cryptocoffee.email.entity.EmailAuthEntity;
 import inu.spp.cryptocoffee.email.repository.EmailAuthRepository;
@@ -23,16 +23,15 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine springTemplateEngine;
-
     private final EmailAuthRepository emailAuthRepository;
 
     /**
      * 메일 전송 메서드
+     *
      * @param emailMessage
      * @param type
-     * @return 인증번호
      */
-    public String sendMail(EmailMessage emailMessage, String type) {
+    public void sendMail(EmailMessage emailMessage, String type) {
         log.info("[sendMail] start, email : {}", emailMessage.getTo());
         String authNum = createCode(); // 인증 코드 생성
         log.info("[sendMail] authNum : {}", authNum);
@@ -69,8 +68,6 @@ public class EmailService {
             emailAuth.setAuthNum(authNum);
             emailAuthRepository.save(emailAuth);
 
-            return authNum;
-
         } catch (MessagingException e) {
             log.info("[sendMail] fail");
             throw new RuntimeException(e);
@@ -79,21 +76,21 @@ public class EmailService {
 
     /**
      * 인증번호 확인 메서드
-     * @param emailAuthDto
+     * @param emailAuthRequest
      * @return 인증 성공 여부
      */
-    public boolean checkAuthNum(EmailAuthDto emailAuthDto) {
+    public boolean checkAuthNum(EmailAuthRequest emailAuthRequest) {
 
         // 이메일 DB 저장 여부 확인
-        if (!emailAuthRepository.existsByEmail(emailAuthDto.getEmail())) {
+        if (!emailAuthRepository.existsByEmail(emailAuthRequest.getEmail())) {
             // Custom Throw 제작
             return false;
         }
 
-        EmailAuthEntity emailAuth = emailAuthRepository.findByEmail(emailAuthDto.getEmail());
+        EmailAuthEntity emailAuth = emailAuthRepository.findByEmail(emailAuthRequest.getEmail());
 
         // 인증번호 일치 여부 확인
-        if (!emailAuth.getAuthNum().equals(emailAuthDto.getAuthNum())) {
+        if (!emailAuth.getAuthNum().equals(emailAuthRequest.getAuthNum())) {
             // Custom Throw 제작
             return false;
         }

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JoinDto {
+public class UserJoinRequest {
     @NotNull(message = "username is null")
     @NotEmpty(message = "username is empty")
     @Schema(description = "유저의 아이디", example = "test")

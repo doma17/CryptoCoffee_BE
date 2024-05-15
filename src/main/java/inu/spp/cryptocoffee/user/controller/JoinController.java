@@ -1,6 +1,6 @@
 package inu.spp.cryptocoffee.user.controller;
 
-import inu.spp.cryptocoffee.user.dto.JoinDto;
+import inu.spp.cryptocoffee.user.dto.UserJoinRequest;
 import inu.spp.cryptocoffee.user.service.JoinService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,10 +23,11 @@ public class JoinController {
     }
 
     @PostMapping("/user/join")
-    public String joinProcess(@Valid @RequestBody JoinDto joinDTO) {
+    public String joinProcess(@Valid @RequestBody UserJoinRequest userJoinRequest) {
 
-        log.info("[joinProcess] username: {}", joinDTO.getUsername());
-        joinService.joinProcess(joinDTO);
+        log.info("[joinProcess] username: {}", userJoinRequest.getUsername());
+        // !! 기본적으로 ROLE_ADMIN 발급 !!
+        joinService.joinProcess(userJoinRequest);
 
         return "ok";
     }

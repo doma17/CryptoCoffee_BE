@@ -32,7 +32,7 @@ jobs:
       - name: Execute Docker Container on EC2
         uses: appleboy/ssh-action@master
         with:
-          username: ubuntu
+          username: ${{ secrets.EC2_USERNAME }}
           host: ${{ secrets.EC2_HOST }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |

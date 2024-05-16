@@ -29,8 +29,6 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
 
-  deploy:
-    runs-on: ubuntu-latest 
       - name: Execute Docker Container on EC2
         uses: appleboy/ssh-action@master
         with:

@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Build Docker image
-        run: docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest .
+        run: docker build --platform linux/amd64 -t rovin1273/crypto-spring-app:latest .
 
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin
@@ -39,7 +39,7 @@ jobs:
             docker stop crypto-app || true \
             docker rm crypto-app || true \
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin \
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
+            docker pull rovin1273/crypto-spring-app:latest
             docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev \
               --env DB_URL=${{ secrets.DB_URL }} \
               --env DB_USERNAME=${{ secrets.DB_USERNAME }} \
@@ -51,4 +51,4 @@ jobs:
               --env JWT_SECRET=${{ secrets.JWT_SECRET }} \
               -v ${{ secrets.STORAGE_UPLOAD_DIR }} \
               -v ${{ secrets.LOG_DIR }} \
-              ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
+              rovin1273/crypto-spring-app:latest

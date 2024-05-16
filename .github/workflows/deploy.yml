@@ -45,15 +45,4 @@ jobs:
               exit 1
             fi
             docker pull rovin1273/crypto-spring-app:latest
-            docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev \
-              --env DB_URL=${{ secrets.DB_URL }} \
-              --env DB_USERNAME=${{ secrets.DB_USERNAME }} \
-              --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-              --env REDIS_HOST=${{ secrets.REDIS_HOST }} \
-              --env REDIS_PORT=${{ secrets.REDIS_PORT }} \
-              --env MAIL_USERNAME="${{ secrets.MAIL_USERNAME }}" \
-              --env MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
-              --env JWT_SECRET="${{ secrets.JWT_SECRET }}" \
-              -v $(pwd)/volumes/storage/upload:/app/crypto/storage/upload \
-              -v $(pwd)/volumes/log:/app/crypto/log \
-               rovin1273/crypto-spring-app:latest
+            docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev --env DB_URL="${{ secrets.DB_URL }}" --env DB_USERNAME="${{ secrets.DB_USERNAME }}" --env DB_PASSWORD="${{ secrets.DB_PASSWORD }}" --env REDIS_HOST="${{ secrets.REDIS_HOST }}" --env REDIS_PORT=${{ secrets.REDIS_PORT }} --env MAIL_USERNAME="${{ secrets.MAIL_USERNAME }}" --env MAIL_PASSWORD="${{ secrets.MAIL_PASSWORD }}" --env JWT_SECRET="${{ secrets.JWT_SECRET }}" -v /home/ubuntu/volumes/storage/upload:/app/crypto/storage/upload -v /home/ubuntu/volumes/log:/app/crypto/log  rovin1273/crypto-spring-app:latest

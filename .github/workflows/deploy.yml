@@ -36,8 +36,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker stop crypto-app || true
-            docker rm crypto-app || true
+            docker stop crypto-app || true \
+            docker rm crypto-app || true \
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin \
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
             docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev \
               --env DB_URL=${{ secrets.DB_URL }} \

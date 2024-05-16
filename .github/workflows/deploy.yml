@@ -24,11 +24,13 @@ jobs:
         run: docker build --platform linux/amd64 -t rovin1273/crypto-spring-app:latest .
 
       - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "rovin1273" --password-stdin
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/crypto-spring-app:latest
 
+  deploy:
+    runs-on: ubuntu-latest 
       - name: Execute Docker Container on EC2
         uses: appleboy/ssh-action@master
         with:
@@ -36,9 +38,14 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker stop crypto-app || true \
-            docker rm crypto-app || true \
-            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME}}" --password-stdin \
+            docker stop crypto-app || true
+            docker rm crypto-app || true
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            sleep 5 # DockerHub 로그인 후 대기
+            if ! docker info >/dev/null 2>&1; then
+              echo "Docker login failed"
+              exit 1
+            fi
             docker pull rovin1273/crypto-spring-app:latest
             docker run -d --name crypto-app -p 8082:8080 --network crypto-network-dev \
               --env DB_URL=${{ secrets.DB_URL }} \
@@ -49,6 +56,6 @@ jobs:
               --env MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
               --env MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
               --env JWT_SECRET=${{ secrets.JWT_SECRET }} \
-              -v ${{ secrets.STORAGE_UPLOAD_DIR }} \
-              -v ${{ secrets.LOG_DIR }} \
+              -v ${{ secrets.STORAGE_UPLOAD_DIR }}:/storage/upload \
+              -v ${{ secrets.LOG_DIR }}:/logs \
               rovin1273/crypto-spring-app:latest

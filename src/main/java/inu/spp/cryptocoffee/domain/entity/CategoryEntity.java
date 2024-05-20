@@ -1,7 +1,7 @@
 package inu.spp.cryptocoffee.domain.entity;
 
 
-import inu.spp.cryptocoffee.global.BaseTimeEntity;
+import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

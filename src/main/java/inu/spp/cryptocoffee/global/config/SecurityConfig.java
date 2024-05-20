@@ -1,7 +1,7 @@
 package inu.spp.cryptocoffee.global.config;
 
-import inu.spp.cryptocoffee.user.jwt.*;
-import inu.spp.cryptocoffee.user.repository.RefreshTokenRepository;
+import inu.spp.cryptocoffee.auth.user.jwt.*;
+import inu.spp.cryptocoffee.auth.user.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

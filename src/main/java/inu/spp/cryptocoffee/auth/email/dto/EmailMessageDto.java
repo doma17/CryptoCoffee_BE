@@ -1,23 +1,26 @@
 package inu.spp.cryptocoffee.auth.email.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EmailAuthRequest {
+@Builder
+public class EmailMessageDto {
     @Email
     @NotNull(message = "email can't be null")
     @NotEmpty(message = "email can't be empty")
-    @Schema(description = "이메일", example = "example@gmail.com")
-    private String email;
+    private String to;
 
     @NotNull(message = "email can't be null")
     @NotEmpty(message = "email can't be empty")
-    @Schema(description = "인증번호", example = "123456")
-    private String authNum;
+    private String subject;
+
+    @NotNull(message = "email can't be null")
+    @NotEmpty(message = "email can't be empty")
+    private String message;
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class EmailPostRequest {
+public class EmailPostRequestDto {
     @Email
     @NotNull(message = "email can't be null")
     @NotEmpty(message = "email can't be empty")

@@ -58,3 +58,5 @@ jobs:
               -v /home/ubuntu/volumes/log:/app/crypto/log \
               rovin1273/crypto-spring-app:latest
             docker ps
+
+# Path: .github/workflows/deploy.yml

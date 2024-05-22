@@ -1,5 +1,7 @@
 package inu.spp.cryptocoffee.auth.user.controller;
 
+import inu.spp.cryptocoffee.auth.user.dto.UserAuthorityRequestDto;
+import inu.spp.cryptocoffee.auth.user.dto.UserPageResponseDto;
 import inu.spp.cryptocoffee.auth.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

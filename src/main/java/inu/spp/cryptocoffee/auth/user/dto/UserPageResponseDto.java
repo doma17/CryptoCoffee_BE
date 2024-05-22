@@ -1,6 +1,5 @@
-package inu.spp.cryptocoffee.auth.user.controller;
+package inu.spp.cryptocoffee.auth.user.dto;
 
-import inu.spp.cryptocoffee.auth.user.dto.UserRoleEnum;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;

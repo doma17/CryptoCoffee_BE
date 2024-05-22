@@ -1,6 +1,5 @@
-package inu.spp.cryptocoffee.auth.user.controller;
+package inu.spp.cryptocoffee.auth.user.dto;
 
-import inu.spp.cryptocoffee.auth.user.dto.UserRoleEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

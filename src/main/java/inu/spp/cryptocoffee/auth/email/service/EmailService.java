@@ -1,9 +1,9 @@
 package inu.spp.cryptocoffee.auth.email.service;
 
-import inu.spp.cryptocoffee.auth.email.dto.EmailAuthRequest;
+import inu.spp.cryptocoffee.auth.email.dto.EmailAuthRequestDto;
 import inu.spp.cryptocoffee.auth.email.entity.EmailAuthEntity;
 import inu.spp.cryptocoffee.auth.email.repository.EmailAuthRepository;
-import inu.spp.cryptocoffee.auth.email.dto.EmailMessage;
+import inu.spp.cryptocoffee.auth.email.dto.EmailMessageDto;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +28,11 @@ public class EmailService {
     /**
      * 메일 전송 메서드
      *
-     * @param emailMessage
+     * @param emailMessageDto
      * @param type
      */
-    public void sendMail(EmailMessage emailMessage, String type) {
-        log.info("[sendMail] start, email : {}", emailMessage.getTo());
+    public void sendMail(EmailMessageDto emailMessageDto, String type) {
+        log.info("[sendMail] start, email : {}", emailMessageDto.getTo());
         String authNum = createCode(); // 인증 코드 생성
         log.info("[sendMail] authNum : {}", authNum);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -41,14 +41,14 @@ public class EmailService {
         // 이미 인증한 이메일 경우의 예외 처리 추가
 
         EmailAuthEntity emailAuth = null;
-        if (!emailAuthRepository.existsByEmail(emailMessage.getTo())) { // 이메일이 존재하지 않는 경우
+        if (!emailAuthRepository.existsByEmail(emailMessageDto.getTo())) { // 이메일이 존재하지 않는 경우
             log.info("[sendMail] email is not exist");
             emailAuth = EmailAuthEntity.builder()
-                    .email(emailMessage.getTo())
+                    .email(emailMessageDto.getTo())
                     .build();
         } else {    // 이메일이 존재하는 경우 인증번호만 변경 (재인증)
             log.info("[sendMail] email is exist");
-            emailAuth = emailAuthRepository.findByEmail(emailMessage.getTo());
+            emailAuth = emailAuthRepository.findByEmail(emailMessageDto.getTo());
         }
 
         if (emailAuth.isAuth()) { // 이미 인증한 이메일인 경우
@@ -59,13 +59,13 @@ public class EmailService {
         try {
             log.info("[sendMail] send email");
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(emailMessage.getTo()); // 메일 수신자
-            mimeMessageHelper.setSubject(emailMessage.getSubject()); // 메일 제목
+            mimeMessageHelper.setTo(emailMessageDto.getTo()); // 메일 수신자
+            mimeMessageHelper.setSubject(emailMessageDto.getSubject()); // 메일 제목
             mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
             log.info("[sendMail] success");
-            emailAuth.setAuthNum(authNum);
+            emailAuth.updateAuthNum(authNum);
             emailAuthRepository.save(emailAuth);
 
         } catch (MessagingException e) {
@@ -79,7 +79,7 @@ public class EmailService {
      * @param emailAuthRequest
      * @return 인증 성공 여부
      */
-    public boolean checkAuthNum(EmailAuthRequest emailAuthRequest) {
+    public boolean checkAuthNum(EmailAuthRequestDto emailAuthRequest) {
 
         // 이메일 DB 저장 여부 확인
         if (!emailAuthRepository.existsByEmail(emailAuthRequest.getEmail())) {

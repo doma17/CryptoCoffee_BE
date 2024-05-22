@@ -7,8 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "email_auth", indexes = @Index(name = "idx_email", columnList = "email"))
 @Entity
 public class EmailAuthEntity extends BaseTimeEntity {
@@ -26,11 +27,6 @@ public class EmailAuthEntity extends BaseTimeEntity {
 
     @Column(name = "is_auth")
     private boolean isAuth = false;
-
-    @Builder
-    public EmailAuthEntity(String email) {
-        this.email = email;
-    }
 
     public void updateIsAuthTrue() {
         this.isAuth = true;

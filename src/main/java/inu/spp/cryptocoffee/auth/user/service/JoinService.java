@@ -2,7 +2,7 @@ package inu.spp.cryptocoffee.auth.user.service;
 
 import inu.spp.cryptocoffee.domain.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.repository.CompanyRepository;
-import inu.spp.cryptocoffee.auth.user.dto.UserJoinRequest;
+import inu.spp.cryptocoffee.auth.user.dto.UserJoinRequestDto;
 import inu.spp.cryptocoffee.auth.user.dto.UserRoleEnum;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
 import inu.spp.cryptocoffee.auth.user.repository.UserRepository;
@@ -24,12 +24,12 @@ public class JoinService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void joinProcess(UserJoinRequest userJoinRequest) {
-        log.info("[joinProcess] joinDto = {}, {}, {}", userJoinRequest.getUsername(), userJoinRequest.getPassword(), userJoinRequest.getName());
+    public void joinProcess(UserJoinRequestDto userJoinRequestDto) {
+        log.info("[joinProcess] joinDto = {}, {}, {}", userJoinRequestDto.getUsername(), userJoinRequestDto.getPassword(), userJoinRequestDto.getName());
 
-        String username = userJoinRequest.getUsername();
-        String password = userJoinRequest.getPassword();
-        String company = userJoinRequest.getCompany();
+        String username = userJoinRequestDto.getUsername();
+        String password = userJoinRequestDto.getPassword();
+        String company = userJoinRequestDto.getCompany();
 
         if (userRepository.existsByUsername(username)) {
             return;
@@ -41,7 +41,7 @@ public class JoinService {
         UserEntity data = UserEntity.builder()
                 .username(username)
                 .password(bCryptPasswordEncoder.encode(password))
-                .name(userJoinRequest.getName())
+                .name(userJoinRequestDto.getName())
                 .company(companyEntity)
                 .role(UserRoleEnum.ROLE_ADMIN) // default role 추후 변경 필요
                 .build();

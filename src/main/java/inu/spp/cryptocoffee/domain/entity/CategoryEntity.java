@@ -3,12 +3,12 @@ package inu.spp.cryptocoffee.domain.entity;
 
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Table(name = "category")
 public class CategoryEntity extends BaseTimeEntity {

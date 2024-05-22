@@ -3,13 +3,13 @@ package inu.spp.cryptocoffee.domain.entity;
 
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Table(name = "item")
 public class ItemEntity extends BaseTimeEntity {
@@ -26,13 +26,6 @@ public class ItemEntity extends BaseTimeEntity {
     private CategoryEntity category;
 
     public void updateItem(String name, String description, CategoryEntity category) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-    }
-
-    @Builder
-    public ItemEntity(String name, String description, CategoryEntity category) {
         this.name = name;
         this.description = description;
         this.category = category;

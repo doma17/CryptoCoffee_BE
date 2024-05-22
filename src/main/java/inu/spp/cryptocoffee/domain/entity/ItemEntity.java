@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Getter
+@DynamicUpdate
 @Table(name = "item")
 public class ItemEntity extends BaseTimeEntity {
 

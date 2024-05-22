@@ -16,11 +16,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    // UserRepository를 주입받아 CustomUserDetailsService를 생성
     @Autowired
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    // 로그인 시, 입력받은 username을 통해 UserEntity를 찾아 CustomUserDetails로 변환하여 반환
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username)

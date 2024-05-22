@@ -6,9 +6,11 @@ import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@DynamicUpdate
 @Builder
 @Getter
 @Table(name = "user")

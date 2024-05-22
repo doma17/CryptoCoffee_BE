@@ -1,4 +1,4 @@
-package inu.spp.cryptocoffee.domain.entity;
+package inu.spp.cryptocoffee.domain.item.entity;
 
 
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;

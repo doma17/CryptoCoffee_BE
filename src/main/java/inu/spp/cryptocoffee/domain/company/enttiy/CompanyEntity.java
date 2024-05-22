@@ -1,6 +1,6 @@
-package inu.spp.cryptocoffee.domain.entity;
+package inu.spp.cryptocoffee.domain.company.enttiy;
 
-import inu.spp.cryptocoffee.domain.dto.Address;
+import inu.spp.cryptocoffee.domain.company.dto.Address;
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;

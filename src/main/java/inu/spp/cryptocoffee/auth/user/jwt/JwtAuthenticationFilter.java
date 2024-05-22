@@ -84,6 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Bearer token 검증
         if (!accessToken.split(" ")[0].equals("Bearer")) {
+            log.debug("[doFilter] not Bearer token");
             doStatusUnAuth("[doFilterInternal] not Bearer token", response, "invalid token");
             return null;
         }

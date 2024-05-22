@@ -36,8 +36,16 @@ public class UserEntity extends BaseTimeEntity {
     private UserRoleEnum role;
 
     @Column(nullable = false)
-    private final boolean isLocked = false;
+    private boolean isLocked = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CompanyEntity company;
+
+    public void changeRole(UserRoleEnum role) {
+        this.role = role;
+    }
+
+    public void unlockUser() {
+        this.isLocked = false;
+    }
 }

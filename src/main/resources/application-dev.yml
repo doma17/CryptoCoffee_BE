@@ -44,3 +44,7 @@ springdoc:
     operations-sorter: alpha
     display-request-duration: true
     disable-swagger-default-url: true
+
+logging:
+  level:
+    root: info

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
-@Tag(name = "Member API - 로그인 후 사용가능한 API")
+@Tag(name = "Member API - 로그인 후 사용가능 (Notion 참고)")
 @RestController
 public class MemberController {
 

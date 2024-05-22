@@ -2,7 +2,7 @@ package inu.spp.cryptocoffee.domain.company.service;
 
 import inu.spp.cryptocoffee.domain.company.dto.CompanyRequestDto;
 import inu.spp.cryptocoffee.domain.company.dto.CompanyResponseDto;
-import inu.spp.cryptocoffee.domain.company.enttiy.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.company.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

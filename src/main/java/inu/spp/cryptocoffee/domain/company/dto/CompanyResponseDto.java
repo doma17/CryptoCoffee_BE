@@ -1,6 +1,6 @@
 package inu.spp.cryptocoffee.domain.company.dto;
 
-import inu.spp.cryptocoffee.domain.company.enttiy.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embedded;
 import lombok.Getter;

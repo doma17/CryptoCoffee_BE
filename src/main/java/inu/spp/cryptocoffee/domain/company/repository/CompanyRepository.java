@@ -1,6 +1,6 @@
 package inu.spp.cryptocoffee.domain.company.repository;
 
-import inu.spp.cryptocoffee.domain.company.enttiy.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

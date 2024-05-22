@@ -60,8 +60,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/admin", "/api/member/**").hasRole("ADMIN")
                         .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().permitAll());
 
         // 세션 설정

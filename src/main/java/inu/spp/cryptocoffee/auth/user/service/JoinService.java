@@ -1,7 +1,7 @@
 package inu.spp.cryptocoffee.auth.user.service;
 
-import inu.spp.cryptocoffee.domain.entity.CompanyEntity;
-import inu.spp.cryptocoffee.domain.repository.CompanyRepository;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.repository.CompanyRepository;
 import inu.spp.cryptocoffee.auth.user.dto.UserJoinRequestDto;
 import inu.spp.cryptocoffee.auth.user.dto.UserRoleEnum;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;

@@ -5,7 +5,7 @@ import inu.spp.cryptocoffee.auth.user.jwt.JwtUtil;
 import inu.spp.cryptocoffee.auth.user.repository.UserRepository;
 import inu.spp.cryptocoffee.auth.user.controller.UserAuthorityRequestDto;
 import inu.spp.cryptocoffee.auth.user.controller.UserPageResponseDto;
-import inu.spp.cryptocoffee.domain.entity.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

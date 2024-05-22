@@ -1,6 +1,5 @@
 package inu.spp.cryptocoffee.auth.user.repository;
 
-import inu.spp.cryptocoffee.domain.entity.CompanyEntity;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

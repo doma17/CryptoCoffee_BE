@@ -2,8 +2,10 @@ package inu.spp.cryptocoffee.domain.member.service;
 
 import inu.spp.cryptocoffee.auth.user.dto.CustomUserDetails;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
+import inu.spp.cryptocoffee.domain.member.dto.MemberJoinRequestDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinResponseDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberStatus;
+import inu.spp.cryptocoffee.domain.member.entity.MemberEntity;
 import inu.spp.cryptocoffee.domain.member.repository.MemberRepositroy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,15 @@ public class MemberService {
         return memberRepositroy.findByCompanyAndStatus(user.getCompany(), MemberStatus.INACTIVE).stream()
                 .map(MemberJoinResponseDto::from)
                 .collect(Collectors.toList());
+    }
+
+    public void createMember(CustomUserDetails customUserDetails, MemberJoinRequestDto memberJoinRequestDto) {
+
+        // !! 요청 유저의 Email 인증 여부 확인 로직 추가 필요 !!
+
+        // 로그인 중인 유저의 userId를 가져옴
+        UserEntity user = customUserDetails.getUserEntity();
+        MemberEntity member = MemberJoinRequestDto.toEntity(memberJoinRequestDto, user.getCompany());
+        memberRepositroy.save(member);
     }
 }

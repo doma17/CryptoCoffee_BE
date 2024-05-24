@@ -1,6 +1,7 @@
 package inu.spp.cryptocoffee.domain.member.controller;
 
 import inu.spp.cryptocoffee.auth.user.dto.CustomUserDetails;
+import inu.spp.cryptocoffee.domain.member.dto.MemberJoinRequestDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinResponseDto;
 import inu.spp.cryptocoffee.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +27,15 @@ public class MemberController {
     public ResponseEntity<List<MemberJoinResponseDto>> getRequestingMembers(@AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception{
         List<MemberJoinResponseDto> response = memberService.getRequestingMembers(customUserDetails);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Operation(summary = "회원 가입 요청")
+    @PostMapping("/request")
+    public ResponseEntity<?> createMember(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody MemberJoinRequestDto memberJoinRequestDto
+    ) throws Exception {
+        memberService.createMember(customUserDetails, memberJoinRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

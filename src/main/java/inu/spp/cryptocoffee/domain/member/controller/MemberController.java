@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @Operation(summary = "회원 가입 요청 중인 회원 조회")
-    @GetMapping("/request")
+    @GetMapping("/request/list")
     public ResponseEntity<List<MemberJoinResponseDto>> getRequestingMembers(@AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception{
         List<MemberJoinResponseDto> response = memberService.getRequestingMembers(customUserDetails);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

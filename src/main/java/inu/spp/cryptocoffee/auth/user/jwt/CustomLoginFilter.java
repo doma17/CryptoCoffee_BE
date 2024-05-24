@@ -30,6 +30,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.jwtTimeComponent = jwtTimeComponent;
+        setFilterProcessesUrl("/api/users/login");
     }
 
     @Override
@@ -63,6 +64,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         final String access = jwtUtil.createJwt("access", username, role, jwtTimeComponent.getAccessExpiration() * 1000);
         final String refresh = jwtUtil.createJwt("refresh", username, role, jwtTimeComponent.getRefreshExpiration() * 1000);
 
+        log.info("[successfulAuthentication] username = {}", username);
         log.info("[successfulAuthentication] access token = {}", access);
         log.info("[successfulAuthentication] refresh token = {}", refresh);
         //Refresh 토큰 저장

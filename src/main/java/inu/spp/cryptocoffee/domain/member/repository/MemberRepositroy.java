@@ -17,5 +17,7 @@ public interface MemberRepositroy extends JpaRepository<MemberEntity, Long> {
 
     Page<MemberEntity> findByCompanyAndStatus(CompanyEntity company, MemberStatus memberStatus, Pageable pageable);
 
+    Boolean existsByMemberIdAndCompany(CompanyEntity company);
+
     Page<MemberEntity> findByCompany(CompanyEntity company, Pageable pageable);
 }

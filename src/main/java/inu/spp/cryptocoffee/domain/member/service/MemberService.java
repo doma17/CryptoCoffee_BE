@@ -60,7 +60,7 @@ public class MemberService {
     public void changeMemberEntityStatus(CustomUserDetails customUserDetails, Long memberId, MemberStatus status) {
         UserEntity user = customUserDetails.getUserEntity();
 
-        if (!memberRepositroy.existsByMemberIdAndCompany(user.getCompany()))
+        if (!memberRepositroy.existsByMemberIdAndCompany(memberId, user.getCompany()))
             throw new IllegalArgumentException("해당 회사에 가입 요청을 한 해당 아이디의 회원이 존재하지 않습니다.");
 
         MemberEntity member = memberRepositroy.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));

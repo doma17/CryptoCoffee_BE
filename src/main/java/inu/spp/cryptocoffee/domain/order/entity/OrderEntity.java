@@ -3,8 +3,7 @@ package inu.spp.cryptocoffee.domain.order.entity;
 import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.item.entity.ItemEntity;
 import inu.spp.cryptocoffee.domain.member.entity.MemberEntity;
-import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
-import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
+import inu.spp.cryptocoffee.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

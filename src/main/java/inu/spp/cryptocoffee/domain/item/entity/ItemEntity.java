@@ -1,7 +1,7 @@
 package inu.spp.cryptocoffee.domain.item.entity;
 
 
-import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
+import inu.spp.cryptocoffee.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

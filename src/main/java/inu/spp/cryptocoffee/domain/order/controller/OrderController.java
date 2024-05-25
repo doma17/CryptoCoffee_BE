@@ -22,7 +22,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Operation(summary = "주문 생성 - 인증 X")
+    @Operation(summary = "주문 생성 - 로그인 인증 X")
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderCreateRequestDto orderCreateRequestDto) {
         orderService.createOrder(orderCreateRequestDto);

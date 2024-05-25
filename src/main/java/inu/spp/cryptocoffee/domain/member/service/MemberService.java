@@ -44,6 +44,12 @@ public class MemberService {
     public void createMember(MemberJoinRequestDto memberJoinRequestDto) {
 
         // !! 요청 유저의 Email 인증 여부 확인 로직 추가 필요 !!
+        EmailAuthEntity emailAuth = emailAuthRepository.findByEmail(memberJoinRequestDto.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("해당 이메일로 인증을 진행해주세요.")
+        );
+        if (!emailAuth.isAuth()) {
+            throw new IllegalArgumentException("해당 이메일로 인증을 진행해주세요.");
+        }
 
         // 회사 이름을 통해 회사 정보를 조회
         CompanyEntity company = companyRepository.findByName(memberJoinRequestDto.getCompanyName())

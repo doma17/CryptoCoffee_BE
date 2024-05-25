@@ -41,4 +41,24 @@ public class MemberService {
         MemberEntity member = MemberJoinRequestDto.toEntity(memberJoinRequestDto, user.getCompany());
         memberRepositroy.save(member);
     }
+
+    @Transactional
+    public void rejectMember(CustomUserDetails customUserDetails, Long memberId) {
+        changeMemberEntityStatus(customUserDetails, memberId, MemberStatus.REJECT);
+    }
+
+    @Transactional
+    public void acceptMember(CustomUserDetails customUserDetails, Long memberId) {
+        changeMemberEntityStatus(customUserDetails, memberId, MemberStatus.ACTIVE);
+    }
+
+    @Transactional
+    public void changeMemberEntityStatus(CustomUserDetails customUserDetails, Long memberId, MemberStatus status) {
+        UserEntity user = customUserDetails.getUserEntity();
+        MemberEntity member = memberRepositroy.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        if (member.getCompany().eqaual(user.getCompany()))
+            throw new IllegalArgumentException("해당 회원이 회사에 속해있지 않습니다.");
+        member.changeStatus(status);
+    }
+
 }

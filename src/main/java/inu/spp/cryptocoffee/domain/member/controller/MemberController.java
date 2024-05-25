@@ -38,4 +38,25 @@ public class MemberController {
         memberService.createMember(customUserDetails, memberJoinRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @Operation(summary = "회원 가입 요청 거부")
+    @PostMapping("/request/reject")
+    public ResponseEntity<?> rejectMember(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam Long memberId
+    ) {
+        memberService.rejectMember(customUserDetails, memberId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Operation(summary = "회원 가입 요청 허가")
+    @PostMapping("/request/accept")
+    public ResponseEntity<?> acceptMember(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam Long memberId
+    ) {
+        memberService.acceptMember(customUserDetails, memberId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

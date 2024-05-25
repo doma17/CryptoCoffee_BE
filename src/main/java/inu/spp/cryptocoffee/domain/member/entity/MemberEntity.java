@@ -5,12 +5,13 @@ import inu.spp.cryptocoffee.domain.member.dto.MemberStatus;
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Getter
+@Getter @DynamicUpdate
 @Table(name = "member")
 public class MemberEntity extends BaseTimeEntity {
 
@@ -34,6 +35,5 @@ public class MemberEntity extends BaseTimeEntity {
     public void changeStatus(MemberStatus status) {
         this.status = status;
     }
-
 
 }

@@ -23,12 +23,8 @@ public class ItemEntity extends BaseTimeEntity {
 
     private String description;
 
+    private int price;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private CategoryEntity category;
-
-    public void updateItem(String name, String description, CategoryEntity category) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-    }
 }

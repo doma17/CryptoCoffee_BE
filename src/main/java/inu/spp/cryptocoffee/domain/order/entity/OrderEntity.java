@@ -1,6 +1,8 @@
 package inu.spp.cryptocoffee.domain.order.entity;
 
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.item.entity.ItemEntity;
+import inu.spp.cryptocoffee.domain.member.entity.MemberEntity;
 import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -23,10 +25,13 @@ public class OrderEntity extends BaseTimeEntity {
     private ItemEntity item;
 
     @ManyToOne
-    private UserEntity user;
+    private MemberEntity member;
 
-    public void updateOrder(ItemEntity item, UserEntity user) {
+    @ManyToOne
+    private CompanyEntity company;
+
+    public void updateOrder(ItemEntity item, MemberEntity member) {
         this.item = item;
-        this.user = user;
+        this.member = member;
     }
 }

@@ -98,6 +98,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("[doFilterInternal] error message : {}", e.getMessage());
             doStatusUnAuth("[doFilterInternal] access token expired", response, "access token expired");
             return null;
+        } catch (Exception e) {
+            log.info("[doFilterInternal] access token : {}", token);
+            log.info("[doFilterInternal] error message : {}", e.getMessage());
+            doStatusUnAuth("[doFilterInternal] access token invalid", response, "invalid access token");
+            return null;
         }
 
         // 토큰 Access 여부 검증

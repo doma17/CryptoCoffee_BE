@@ -48,7 +48,9 @@ public class EmailService {
                     .build();
         } else {    // 이메일이 존재하는 경우 인증번호만 변경 (재인증)
             log.info("[sendMail] email is exist");
-            emailAuth = emailAuthRepository.findByEmail(emailMessageDto.getTo());
+            emailAuth = emailAuthRepository.findByEmail(emailMessageDto.getTo()).orElseThrow(
+                    () -> new IllegalArgumentException("email is not exist")
+            );
         }
 
         if (emailAuth.isAuth()) { // 이미 인증한 이메일인 경우
@@ -87,7 +89,9 @@ public class EmailService {
             return false;
         }
 
-        EmailAuthEntity emailAuth = emailAuthRepository.findByEmail(emailAuthRequest.getEmail());
+        EmailAuthEntity emailAuth = emailAuthRepository.findByEmail(emailAuthRequest.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("email is not exist")
+        );
 
         // 인증번호 일치 여부 확인
         if (!emailAuth.getAuthNum().equals(emailAuthRequest.getAuthNum())) {

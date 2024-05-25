@@ -60,7 +60,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join").permitAll()
-                        .requestMatchers("/admin", "/api/member/**").hasRole("ADMIN")
+                        .requestMatchers("/api/members/request", "/api/orders/members").permitAll()
+                        .requestMatchers("/admin", "/api/member/**", "/api/orders/**").hasRole("ADMIN")
                         .requestMatchers("/reissue").permitAll()
                         .anyRequest().permitAll());
 

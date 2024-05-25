@@ -1,4 +1,4 @@
-package inu.spp.cryptocoffee.global.base;
+package inu.spp.cryptocoffee.global.entity;
 
 
 import jakarta.persistence.Column;

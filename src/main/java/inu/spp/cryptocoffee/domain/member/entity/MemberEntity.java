@@ -2,7 +2,7 @@ package inu.spp.cryptocoffee.domain.member.entity;
 
 import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.member.dto.MemberStatus;
-import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
+import inu.spp.cryptocoffee.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -19,6 +19,8 @@ public class MemberEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long memberId;
+
+    private String account;
 
     private String name;
 

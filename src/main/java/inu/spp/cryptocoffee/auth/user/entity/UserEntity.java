@@ -2,7 +2,7 @@ package inu.spp.cryptocoffee.auth.user.entity;
 
 import inu.spp.cryptocoffee.auth.user.dto.UserRoleEnum;
 import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
-import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
+import inu.spp.cryptocoffee.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

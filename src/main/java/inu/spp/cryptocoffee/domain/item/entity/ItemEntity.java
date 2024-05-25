@@ -1,7 +1,7 @@
 package inu.spp.cryptocoffee.domain.item.entity;
 
 
-import inu.spp.cryptocoffee.global.base.BaseTimeEntity;
+import inu.spp.cryptocoffee.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -23,12 +23,8 @@ public class ItemEntity extends BaseTimeEntity {
 
     private String description;
 
+    private int price;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private CategoryEntity category;
-
-    public void updateItem(String name, String description, CategoryEntity category) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-    }
 }

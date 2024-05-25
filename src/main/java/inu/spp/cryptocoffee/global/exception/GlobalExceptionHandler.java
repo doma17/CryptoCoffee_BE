@@ -1,4 +1,4 @@
-package inu.spp.cryptocoffee.global.base;
+package inu.spp.cryptocoffee.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -24,17 +24,17 @@ public class MemberController {
 
     @Operation(summary = "회원 가입 요청 중인 회원 조회")
     @GetMapping("/request/list")
-    public ResponseEntity<List<MemberJoinResponseDto>> getRequestingMembers(@AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception{
+    public ResponseEntity<List<MemberJoinResponseDto>> getRequestingMembers(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         List<MemberJoinResponseDto> response = memberService.getRequestingMembers(customUserDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(summary = "회원 가입 요청")
+    @Operation(summary = "회원 가입 요청 - 비로그인 사용자도 사용 가능 ?")
     @PostMapping("/request")
     public ResponseEntity<?> createMember(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody MemberJoinRequestDto memberJoinRequestDto
-    ) throws Exception {
+    ) {
         memberService.createMember(customUserDetails, memberJoinRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

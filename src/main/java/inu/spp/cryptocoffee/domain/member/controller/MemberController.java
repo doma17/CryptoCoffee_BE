@@ -29,7 +29,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(summary = "회원 가입 요청 - 인증 X")
+    @Operation(summary = "회원 가입 요청 - 로그인 인증 X (이메일 인증 필요)")
     @PostMapping("/request")
     public ResponseEntity<?> createMember(
             @RequestBody MemberJoinRequestDto memberJoinRequestDto

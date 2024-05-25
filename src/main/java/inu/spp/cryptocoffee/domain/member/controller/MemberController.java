@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
-@Tag(name = "Member API - 로그인 후 사용가능 (Notion 참고)")
+@Tag(name = "Member API - apiKey 필요")
 @RestController
 public class MemberController {
 
@@ -29,13 +29,12 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(summary = "회원 가입 요청 - 비로그인 사용자도 사용 가능 ?")
+    @Operation(summary = "회원 가입 요청 - 인증 X")
     @PostMapping("/request")
     public ResponseEntity<?> createMember(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody MemberJoinRequestDto memberJoinRequestDto
     ) {
-        memberService.createMember(customUserDetails, memberJoinRequestDto);
+        memberService.createMember(memberJoinRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -59,14 +58,14 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "가장 최근에 회원 가입된 회원들 조회 - 최대 5명")
+    @Operation(summary = "가장 최근에 회원 가입된 회원들 조회 - 5명")
     @GetMapping("/recent")
     public ResponseEntity<List<MemberJoinResponseDto>> getRecentMember(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         List<MemberJoinResponseDto> response = memberService.getRecentActiveMembers(customUserDetails);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(summary = "허가된 회원 조회")
+    @Operation(summary = "허가된 회원 조회 - 페이징")
     @GetMapping("/approved/list")
     public ResponseEntity<List<MemberJoinResponseDto>> getApprovedMembers(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,

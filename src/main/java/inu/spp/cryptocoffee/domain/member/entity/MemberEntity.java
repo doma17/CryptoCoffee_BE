@@ -20,6 +20,8 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "id")
     private Long memberId;
 
+    private String account;
+
     private String name;
 
     private String job;

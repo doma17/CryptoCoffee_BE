@@ -1,8 +1,11 @@
 package inu.spp.cryptocoffee.domain.member.service;
 
+import inu.spp.cryptocoffee.auth.email.entity.EmailAuthEntity;
+import inu.spp.cryptocoffee.auth.email.repository.EmailAuthRepository;
 import inu.spp.cryptocoffee.auth.user.dto.CustomUserDetails;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
 import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
+import inu.spp.cryptocoffee.domain.company.repository.CompanyRepository;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinRequestDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinResponseDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberStatus;
@@ -23,6 +26,8 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepositroy memberRepositroy;
+    private final CompanyRepository companyRepository;
+    private final EmailAuthRepository emailAuthRepository;
 
     @Transactional
     public List<MemberJoinResponseDto> getRequestingMembers(CustomUserDetails customUserDetails) {
@@ -36,13 +41,15 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public void createMember(CustomUserDetails customUserDetails, MemberJoinRequestDto memberJoinRequestDto) {
+    public void createMember(MemberJoinRequestDto memberJoinRequestDto) {
 
         // !! 요청 유저의 Email 인증 여부 확인 로직 추가 필요 !!
 
-        // 로그인 중인 유저의 userId를 가져옴
-        UserEntity user = customUserDetails.getUserEntity();
-        MemberEntity member = MemberJoinRequestDto.toEntity(memberJoinRequestDto, user.getCompany());
+        // 회사 이름을 통해 회사 정보를 조회
+        CompanyEntity company = companyRepository.findByName(memberJoinRequestDto.getCompanyName())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회사가 존재하지 않습니다."));
+
+        MemberEntity member = MemberJoinRequestDto.toEntity(memberJoinRequestDto, company);
         memberRepositroy.save(member);
     }
 

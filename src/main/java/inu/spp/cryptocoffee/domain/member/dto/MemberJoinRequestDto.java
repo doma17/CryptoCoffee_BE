@@ -15,6 +15,8 @@ public class MemberJoinRequestDto {
 
     private String email;
 
+    private String companyName;
+
     public static MemberEntity toEntity(MemberJoinRequestDto memberJoinRequestDto, CompanyEntity company) {
         return MemberEntity.builder()
                 .name(memberJoinRequestDto.getName())

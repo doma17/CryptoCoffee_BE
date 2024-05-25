@@ -59,4 +59,24 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Operation(summary = "가장 최근에 회원 가입된 회원들 조회 - 최대 5명")
+    @GetMapping("/recent")
+    public ResponseEntity<List<MemberJoinResponseDto>> getRecentMember(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<MemberJoinResponseDto> response = memberService.getRecentActiveMembers(customUserDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Operation(summary = "허가된 회원 조회")
+    @GetMapping("/approved/list")
+    public ResponseEntity<List<MemberJoinResponseDto>> getApprovedMembers(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(defaultValue = "0", value = "page") int pageNum,
+            @RequestParam(defaultValue = "10", value = "pageSize") int pageSize,
+            @RequestParam(defaultValue = "createdAt", value = "sort") String criteria
+    ) {
+        List<MemberJoinResponseDto> response = memberService.getApprovedMembers(customUserDetails, pageNum, pageSize, criteria);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
 }

@@ -2,12 +2,16 @@ package inu.spp.cryptocoffee.domain.member.service;
 
 import inu.spp.cryptocoffee.auth.user.dto.CustomUserDetails;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
+import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinRequestDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberJoinResponseDto;
 import inu.spp.cryptocoffee.domain.member.dto.MemberStatus;
 import inu.spp.cryptocoffee.domain.member.entity.MemberEntity;
 import inu.spp.cryptocoffee.domain.member.repository.MemberRepositroy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,4 +65,19 @@ public class MemberService {
         member.changeStatus(status);
     }
 
+    public List<MemberJoinResponseDto> getRecentActiveMembers(CustomUserDetails customUserDetails) {
+        return getMemberJoinResponseDtoListPage(customUserDetails, 0, 5, "createdAt");
+    }
+
+    public List<MemberJoinResponseDto> getApprovedMembers(CustomUserDetails customUserDetails, int pageNum, int pageSize, String criteria) {
+        return getMemberJoinResponseDtoListPage(customUserDetails, pageNum, pageSize, criteria);
+    }
+
+    private List<MemberJoinResponseDto> getMemberJoinResponseDtoListPage(CustomUserDetails customUserDetails, int pageNum, int pageSize, String criteria) {
+        CompanyEntity company = customUserDetails.getUserEntity().getCompany();
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, criteria));
+        return memberRepositroy.findByCompanyAndStatus(company, MemberStatus.ACTIVE, pageable).stream()
+                .map(MemberJoinResponseDto::from)
+                .collect(Collectors.toList());
+    }
 }

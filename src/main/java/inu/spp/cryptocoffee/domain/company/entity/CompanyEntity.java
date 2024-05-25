@@ -25,4 +25,8 @@ public class CompanyEntity extends BaseTimeEntity {
 
     @Embedded
     private Address address;
+
+    public boolean eqaual(CompanyEntity company) {
+        return this.companyId.equals(company.getCompanyId());
+    }
 }

@@ -1,6 +1,5 @@
 package inu.spp.cryptocoffee.domain.item.service;
 
-import inu.spp.cryptocoffee.domain.item.dto.CategoryResponseDto;
 import inu.spp.cryptocoffee.domain.item.dto.ItemCreateRequestDto;
 import inu.spp.cryptocoffee.domain.item.dto.ItemResponseDto;
 import inu.spp.cryptocoffee.domain.item.entity.CategoryEntity;
@@ -9,6 +8,7 @@ import inu.spp.cryptocoffee.domain.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,9 +33,9 @@ public class ItemService {
                 .toList();
     }
 
-    public List<CategoryResponseDto> getCategories() {
+    public List<String> getCategories() {
         return categoryRepository.findAll().stream()
-                .map(CategoryResponseDto::from)
+                .map(CategoryEntity::getName)
                 .toList();
     }
 

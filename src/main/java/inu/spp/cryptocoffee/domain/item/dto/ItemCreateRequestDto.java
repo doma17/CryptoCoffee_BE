@@ -18,6 +18,7 @@ public class ItemCreateRequestDto {
         return ItemEntity.builder()
                 .name(itemCreateRequestDto.getName())
                 .description(itemCreateRequestDto.getDescription())
+                .price(itemCreateRequestDto.getPrice())
                 .category(category)
                 .build();
     }

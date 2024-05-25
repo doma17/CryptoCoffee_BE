@@ -1,6 +1,5 @@
 package inu.spp.cryptocoffee.domain.item.controller;
 
-import inu.spp.cryptocoffee.domain.item.dto.CategoryResponseDto;
 import inu.spp.cryptocoffee.domain.item.dto.ItemCreateRequestDto;
 import inu.spp.cryptocoffee.domain.item.dto.ItemResponseDto;
 import inu.spp.cryptocoffee.domain.item.service.ItemService;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,8 +51,8 @@ public class ItemController {
 
     @Operation(summary = "카테고리 조회")
     @GetMapping("/category")
-    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
-        List<CategoryResponseDto> response = itemService.getCategories();
+    public ResponseEntity<List<String>> getCategories() {
+        List<String> response = itemService.getCategories();
         return ResponseEntity.ok().body(response);
     }
 

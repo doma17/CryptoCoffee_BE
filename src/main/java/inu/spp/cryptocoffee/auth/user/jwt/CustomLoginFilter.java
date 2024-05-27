@@ -82,7 +82,10 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private void addRefreshEntity(String username, String refresh, Long refreshExpireTime) {
         // 기존에 존재하는 Refresh 토큰 삭제
-        refreshTokenRepository.findByUsername(username).ifPresent(refreshTokenRepository::delete);
+        refreshTokenRepository.findByUsername(username).ifPresent(existedToken -> {
+            log.info("[addRefreshEntity] 기존 Refresh 토큰 삭제");
+            refreshTokenRepository.delete(existedToken);
+        });
 
         RefreshEntity refreshEntity = RefreshEntity.builder()
                 .username(username)

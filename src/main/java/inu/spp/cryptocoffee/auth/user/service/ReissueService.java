@@ -9,10 +9,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ReissueService {
@@ -47,7 +49,10 @@ public class ReissueService {
         String newRefresh = jwtUtil.createJwt("refresh", username, role, jwtTimeComponent.getRefreshExpiration() * 1000);
 
         // 기존에 존재하는 Refresh 토큰 삭제
-        refreshTokenRepository.findByToken(refresh).ifPresent(refreshTokenRepository::delete);
+        refreshTokenRepository.findByToken(refresh).ifPresent(existedToken -> {
+            log.info("[addRefreshEntity] 기존 Refresh 토큰 삭제");
+            refreshTokenRepository.delete(existedToken);
+        });
         // Refresh 토큰 저장
         RefreshEntity refreshEntity = RefreshEntity.builder()
                 .username(username)

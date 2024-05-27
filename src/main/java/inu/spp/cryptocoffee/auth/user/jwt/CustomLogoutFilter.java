@@ -58,7 +58,10 @@ public class CustomLogoutFilter extends GenericFilterBean {
         //로그아웃 진행
         log.info("[doFilter] 로그아웃 진행");
         //Refresh 토큰 DB에서 제거
-        refreshTokenRepository.findByToken(refresh).ifPresent(refreshTokenRepository::delete);
+        refreshTokenRepository.findByToken(refresh).ifPresent(existedToken -> {
+            log.info("[addRefreshEntity] 기존 Refresh 토큰 삭제");
+            refreshTokenRepository.delete(existedToken);
+        });
 
         //Refresh 토큰 Cookie 값 0
         Cookie cookie = new Cookie("refresh", null);

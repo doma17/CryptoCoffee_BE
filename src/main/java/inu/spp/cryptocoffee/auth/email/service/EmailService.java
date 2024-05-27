@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -31,10 +32,10 @@ public class EmailService {
      * @param emailMessageDto
      * @param type
      */
-    public void sendMail(EmailMessageDto emailMessageDto, String type) {
-        log.info("[sendMail] start, email : {}", emailMessageDto.getTo());
+    public void sendAuthMail(EmailMessageDto emailMessageDto, String type) {
+        log.info("[sendAuthMail] start, email : {}", emailMessageDto.getTo());
         String authNum = createCode(); // 인증 코드 생성
-        log.info("[sendMail] authNum : {}", authNum);
+        log.info("[sendAuthMail] authNum : {}", authNum);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         // DB에 Entity를 저장해서 TTL을 통해 관리..?
@@ -42,36 +43,60 @@ public class EmailService {
 
         EmailAuthEntity emailAuth = null;
         if (!emailAuthRepository.existsByEmail(emailMessageDto.getTo())) { // 이메일이 존재하지 않는 경우
-            log.info("[sendMail] email is not exist");
+            log.info("[sendAuthMail] email is not exist");
             emailAuth = EmailAuthEntity.builder()
                     .email(emailMessageDto.getTo())
                     .build();
         } else {    // 이메일이 존재하는 경우 인증번호만 변경 (재인증)
-            log.info("[sendMail] email is exist");
+            log.info("[sendAuthMail] email is exist");
             emailAuth = emailAuthRepository.findByEmail(emailMessageDto.getTo()).orElseThrow(
                     () -> new IllegalArgumentException("email is not exist")
             );
         }
 
         if (emailAuth.isAuth()) { // 이미 인증한 이메일인 경우
-            log.info("[sendMail] already auth");
+            log.info("[sendAuthMail] already auth");
             throw new IllegalArgumentException("already auth");
         }
 
+        sendAuthMail(emailMessageDto, type, mimeMessage, authNum, emailAuth);
+    }
+
+    @Async
+    public void sendAuthMail(EmailMessageDto emailMessageDto, String type, MimeMessage mimeMessage, String authNum, EmailAuthEntity emailAuth) {
         try {
-            log.info("[sendMail] send email");
+            log.info("[sendAuthMail] send email");
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessageDto.getTo()); // 메일 수신자
             mimeMessageHelper.setSubject(emailMessageDto.getSubject()); // 메일 제목
             mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
-            log.info("[sendMail] success");
+            log.info("[sendAuthMail] success");
             emailAuth.updateAuthNum(authNum);
             emailAuthRepository.save(emailAuth);
 
         } catch (MessagingException e) {
-            log.info("[sendMail] fail");
+            log.info("[sendAuthMail] fail");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Async
+    public void sendDidAcceptEmail(EmailMessageDto emailMessageDto) {
+        // 이메일 인증 성공 시
+        log.info("[sendDidAcceptEmail] email : {}", emailMessageDto.getTo());
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            log.info("[sendDidAcceptEmail] send email");
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(emailMessageDto.getTo()); // 메일 수신자
+            mimeMessageHelper.setSubject(emailMessageDto.getSubject()); // 메일 제목
+            mimeMessageHelper.setText(springTemplateEngine.process("email_accept", new Context()), true);
+            javaMailSender.send(mimeMessage);
+
+        } catch (MessagingException e) {
+            log.info("[sendDidAcceptEmail] fail");
             throw new RuntimeException(e);
         }
     }

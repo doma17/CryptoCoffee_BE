@@ -11,7 +11,7 @@ public class MemberJoinRequestDto {
 
     private String name;
 
-    private String job;
+    private String position;
 
     private String email;
 
@@ -20,7 +20,7 @@ public class MemberJoinRequestDto {
     public static MemberEntity toEntity(MemberJoinRequestDto memberJoinRequestDto, CompanyEntity company) {
         return MemberEntity.builder()
                 .name(memberJoinRequestDto.getName())
-                .job(memberJoinRequestDto.getJob())
+                .position(memberJoinRequestDto.getPosition())
                 .email(memberJoinRequestDto.getEmail())
                 .status(MemberStatus.INACTIVE)
                 .company(company)

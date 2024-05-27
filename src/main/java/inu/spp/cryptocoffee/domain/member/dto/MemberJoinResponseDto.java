@@ -14,7 +14,7 @@ public class MemberJoinResponseDto {
 
     private String name;
 
-    private String job;
+    private String position;
 
     private String email;
 
@@ -23,7 +23,7 @@ public class MemberJoinResponseDto {
     public static MemberJoinResponseDto from(MemberEntity memberEntity) {
         return MemberJoinResponseDto.builder()
                 .name(memberEntity.getName())
-                .job(memberEntity.getJob())
+                .position(memberEntity.getPosition())
                 .email(memberEntity.getEmail())
                 .updatedAt(memberEntity.getUpdatedAt())
                 .build();

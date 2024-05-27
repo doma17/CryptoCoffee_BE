@@ -24,7 +24,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     private String name;
 
-    private String job;
+    private String position;
 
     private String email;
 

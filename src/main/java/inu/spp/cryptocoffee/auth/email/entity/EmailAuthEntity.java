@@ -29,6 +29,9 @@ public class EmailAuthEntity extends BaseTimeEntity {
     @Column(name = "is_auth")
     private boolean isAuth = false;
 
+    @OneToOne
+    private MemberEntity member;
+
     public void updateIsAuthTrue() {
         this.isAuth = true;
     }

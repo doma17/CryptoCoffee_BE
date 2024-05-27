@@ -31,7 +31,7 @@ public class EmailController {
                 .subject("[CryptoCoffee] 이메일 인증을 위한 인증 코드 발송")
                 .build();
 
-        emailService.sendMail(emailMessageDto, "email");
+        emailService.sendAuthMail(emailMessageDto, "email_auth");
 
         return ResponseEntity.ok().build();
     }

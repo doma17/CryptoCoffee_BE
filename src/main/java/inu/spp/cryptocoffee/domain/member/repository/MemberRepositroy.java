@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepositroy extends JpaRepository<MemberEntity, Long> {
@@ -20,4 +21,6 @@ public interface MemberRepositroy extends JpaRepository<MemberEntity, Long> {
     Boolean existsByMemberIdAndCompany(Long memberId, CompanyEntity company);
 
     Page<MemberEntity> findByCompany(CompanyEntity company, Pageable pageable);
+
+    Optional<MemberEntity> findByEmailAndCompany(String email, CompanyEntity company);
 }

@@ -42,9 +42,9 @@ public class MemberController {
     @PostMapping("/request/reject")
     public ResponseEntity<?> rejectMember(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam Long memberId
+            @RequestParam String memberEmail
     ) {
-        memberService.rejectMember(customUserDetails, memberId);
+        memberService.rejectMember(customUserDetails, memberEmail);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -52,15 +52,17 @@ public class MemberController {
     @PostMapping("/request/accept")
     public ResponseEntity<?> acceptMember(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam Long memberId
+            @RequestParam String memberEmail
     ) {
-        memberService.acceptMember(customUserDetails, memberId);
+        memberService.acceptMember(customUserDetails, memberEmail);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "가장 최근에 회원 가입된 회원들 조회 - 5명")
     @GetMapping("/recent")
-    public ResponseEntity<List<MemberJoinResponseDto>> getRecentMember(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ResponseEntity<List<MemberJoinResponseDto>> getRecentMember(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
         List<MemberJoinResponseDto> response = memberService.getRecentActiveMembers(customUserDetails);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

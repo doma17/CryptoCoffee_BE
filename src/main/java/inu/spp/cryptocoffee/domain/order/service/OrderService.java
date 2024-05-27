@@ -2,7 +2,6 @@ package inu.spp.cryptocoffee.domain.order.service;
 
 import inu.spp.cryptocoffee.auth.user.dto.CustomUserDetails;
 import inu.spp.cryptocoffee.auth.user.entity.UserEntity;
-import inu.spp.cryptocoffee.domain.order.dto.OrderCreateRequestDto;
 import inu.spp.cryptocoffee.domain.order.dto.OrderResponseDto;
 import inu.spp.cryptocoffee.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +18,6 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-
-    public void createOrder(OrderCreateRequestDto orderCreateRequestDto) {
-
-    }
 
     public List<OrderResponseDto> getOrdersList(CustomUserDetails customUserDetails, int pageNum, int pageSize, String criteria) {
         UserEntity user = customUserDetails.getUserEntity();

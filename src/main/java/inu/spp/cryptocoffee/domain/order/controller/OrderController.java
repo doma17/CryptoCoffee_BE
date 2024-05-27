@@ -25,7 +25,6 @@ public class OrderController {
     @Operation(summary = "주문 생성 - 로그인 인증 X")
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderCreateRequestDto orderCreateRequestDto) {
-        orderService.createOrder(orderCreateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

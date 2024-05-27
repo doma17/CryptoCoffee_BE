@@ -29,8 +29,4 @@ public class OrderEntity extends BaseTimeEntity {
     @ManyToOne
     private CompanyEntity company;
 
-    public void updateOrder(ItemEntity item, MemberEntity member) {
-        this.item = item;
-        this.member = member;
-    }
 }

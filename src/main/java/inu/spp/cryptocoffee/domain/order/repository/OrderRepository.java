@@ -1,7 +1,6 @@
 package inu.spp.cryptocoffee.domain.order.repository;
 
 import inu.spp.cryptocoffee.domain.company.entity.CompanyEntity;
-import inu.spp.cryptocoffee.domain.order.dto.OrderResponseDto;
 import inu.spp.cryptocoffee.domain.order.entity.OrderEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +12,5 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     List<OrderEntity> findByCompany(CompanyEntity company, Pageable pageable);
+
 }

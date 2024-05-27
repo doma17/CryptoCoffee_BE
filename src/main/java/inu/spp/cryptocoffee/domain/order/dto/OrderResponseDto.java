@@ -9,6 +9,7 @@ import lombok.Setter;
 public class OrderResponseDto {
 
     private Long itemId;
+
     private Long memberId;
 
     public static OrderResponseDto from(OrderEntity order) {

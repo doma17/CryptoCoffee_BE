@@ -3,6 +3,7 @@ package inu.spp.cryptocoffee.auth.user.repository;
 import groovy.util.logging.Slf4j;
 import inu.spp.cryptocoffee.auth.user.entity.RefreshEntity;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
+@TestPropertySource(properties = {"spring.config.location = classpath:test.yml"})
+/**
 @TestPropertySource(properties = {
         "DB_URL=jdbc:mariadb://localhost:3307/crypto_coffee?characterEncoding=UTF-8&serverTimezone=UTC",
         "DB_USERNAME=root",
@@ -24,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
         "REDIS_HOST=localhost",
         "REDIS_PORT=6379"
 })
+*/
 class RefreshTokenRepositoryTest {
 
     private static final Logger log = LoggerFactory.getLogger(RefreshTokenRepositoryTest.class);
@@ -41,32 +45,51 @@ class RefreshTokenRepositoryTest {
         refresh = RefreshEntity.builder()
                 .username(username)
                 .token(token)
-                .expiration(expiration)
+                .ttl(expiration)
                 .build();
     }
 
+
+
     @Test
-    public void 토큰제거테스트() {
+    @DisplayName("토큰 ID로 삭제, 검색 테스트")
+    public void testById() {
+        // given
         RefreshEntity savedRefresh = refreshTokenRepository.save(refresh);
-
+        // when
         assertTrue(refreshTokenRepository.findById(savedRefresh.getId()).isPresent());
-
         refreshTokenRepository.findById(savedRefresh.getId()).ifPresent(token -> {
             refreshTokenRepository.deleteById(token.getId());
         });
-
+        // then
         assertFalse(refreshTokenRepository.findById(savedRefresh.getId()).isPresent());
     }
 
     @Test
-    void existsByToken() {
+    @DisplayName("토큰 문자열로 삭제, 검색 테스트")
+    public void testByToken() {
+        // given
+        RefreshEntity savedRefresh = refreshTokenRepository.save(refresh);
+        // when
+        assertTrue(refreshTokenRepository.findByToken(savedRefresh.getToken()).isPresent());
+        refreshTokenRepository.findByToken(savedRefresh.getToken()).ifPresent(token -> {
+            refreshTokenRepository.deleteById(token.getId());
+        });
+        // then
+        assertFalse(refreshTokenRepository.findByToken(savedRefresh.getToken()).isPresent());
     }
 
     @Test
-    void findByToken() {
-    }
-
-    @Test
-    void findByUsername() {
+    @DisplayName("토큰 문자열로 삭제, 검색 테스트")
+    public void testByUsername() {
+        // given
+        RefreshEntity savedRefresh = refreshTokenRepository.save(refresh);
+        // when
+        assertTrue(refreshTokenRepository.findByUsername(savedRefresh.getUsername()).isPresent());
+        refreshTokenRepository.findByUsername(savedRefresh.getUsername()).ifPresent(token -> {
+            refreshTokenRepository.deleteById(token.getId());
+        });
+        // then
+        assertFalse(refreshTokenRepository.findByUsername(savedRefresh.getUsername()).isPresent());
     }
 }

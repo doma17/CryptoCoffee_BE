@@ -49,15 +49,15 @@ public class ReissueService {
         String newRefresh = jwtUtil.createJwt("refresh", username, role, jwtTimeComponent.getRefreshExpiration() * 1000);
 
         // 기존에 존재하는 Refresh 토큰 삭제
-        refreshTokenRepository.findByToken(refresh).ifPresent(existedToken -> {
+        refreshTokenRepository.findByUsername(username).ifPresent(existedToken -> {
             log.info("[addRefreshEntity] 기존 Refresh 토큰 삭제");
-            refreshTokenRepository.delete(existedToken);
+            refreshTokenRepository.deleteById(existedToken.getId());
         });
         // Refresh 토큰 저장
         RefreshEntity refreshEntity = RefreshEntity.builder()
                 .username(username)
                 .token(newRefresh)
-                .expiration(jwtTimeComponent.getRefreshExpiration())
+                .ttl(jwtTimeComponent.getRefreshExpiration())
                 .build();
         refreshTokenRepository.save(refreshEntity);
 

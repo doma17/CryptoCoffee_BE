@@ -1,6 +1,5 @@
 package inu.spp.cryptocoffee.auth.user.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.redis.core.RedisHash;
@@ -17,15 +16,13 @@ public class RefreshEntity {
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Indexed
     private String username;
 
     @Indexed
-    @Column(nullable = false)
     private String token;
 
     @TimeToLive
-    @Column(nullable = false)
-    private Long expiration;
+    private Long ttl;
 
 }

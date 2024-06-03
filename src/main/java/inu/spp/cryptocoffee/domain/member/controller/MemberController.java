@@ -42,7 +42,7 @@ public class MemberController {
     @PostMapping("/request/reject")
     public ResponseEntity<?> rejectMember(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam String memberEmail
+            @RequestBody String memberEmail
     ) {
         memberService.rejectMember(customUserDetails, memberEmail);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -52,7 +52,7 @@ public class MemberController {
     @PostMapping("/request/accept")
     public ResponseEntity<?> acceptMember(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam String memberEmail
+            @RequestBody String memberEmail
     ) {
         memberService.acceptMember(customUserDetails, memberEmail);
         return ResponseEntity.status(HttpStatus.OK).build();

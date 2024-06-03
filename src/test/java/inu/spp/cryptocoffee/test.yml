@@ -1,0 +1,8 @@
+  DB_URL=jdbc:mariadb://localhost:3307/crypto_coffee?characterEncoding=UTF-8&serverTimezone=UTC,
+  DB_USERNAME=root
+    "DB_PASSWORD=1234"
+    "JWT_SECRET=21hr873ho4byaor89h3q278ofb328ue3hoybfy2983ye9hybhefarfgytoz87hcry3hnmzml",
+    "MAIL_USERNAME=cryptocoffee.noreply",
+    "MAIL_PASSWORD=yzzw evim exaw ogcq",
+    "REDIS_HOST=localhost",
+    "REDIS_PORT=6379"

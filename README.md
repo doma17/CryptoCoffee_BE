@@ -56,4 +56,6 @@ CryptoCoffee 프로젝트는 [Planz-coffee](https://planz-coffee.com) 시스템�
 ```
 
 ## 배포
-이 프로젝트는 GitHub Actions를 사용하여 CI/CD가 자동화되어 있었으며, `Dockerfile`과 `docker-compose.yml` 파일이 포함되어 있어 컨테이너화된 배포가 가능합니다.
+이 프로젝트는 GitHub Actions를 사용하여 AWS EC2에 CI/CD가 자동화되어 있었으며.
+
+`Dockerfile`과 `docker-compose.yml` 파일이 포함되어 있어 컨테이너화된 배포가 가능합니다.
